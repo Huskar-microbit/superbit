@@ -1,0 +1,17 @@
+{
+    "name": "superbit",
+    "version": "1.0.0",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*",
+        "radio": "*"
+    },
+    "description": "Extension for webee superbit",
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "custom.ts"
+    ],
+    "public": true
+}
