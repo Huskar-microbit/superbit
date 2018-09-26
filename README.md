@@ -13,6 +13,10 @@
 
 Read more at https://makecode.microbit.org/packages/build-your-own
 
+
+# Blocks Preview
+![image](https://github.com/Huskar-microbit/superbit/blob/master/icon.png)
+
 ## License
 
 MIT
