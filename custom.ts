@@ -171,9 +171,12 @@ namespace Superbit {
         setPwm((index - 1) * 2 + 1, 0, 0);
     }
 
-
-
-    //% blockId=superbit_servo block="Servo|%index|degree %degree"
+    /**
+     * Servo Execute
+     * @param index Servo Channel; eg: S1
+     * @param degree [0-180] degree of servo; eg: 0, 90, 180
+    */
+    //% blockId=robotbit_servo block="Servo|%index|degree %degree"
     //% weight=100
     //% degree.min=0 degree.max=180
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
@@ -187,8 +190,12 @@ namespace Superbit {
         setPwm(index + 7, 0, value)
     }
 
-  
-    //% blockId=superbit_geek_servo block="Geek Servo|%index|degree %degree"
+    /**
+     * Geek Servo
+     * @param index Servo Channel; eg: S1
+     * @param degree [-45-225] degree of servo; eg: -45, 90, 225
+    */
+    //% blockId=robotbit_gservo block="Geek Servo|%index|degree %degree"
     //% weight=99
     //% blockGap=50
     //% degree.min=-45 degree.max=225
@@ -198,7 +205,7 @@ namespace Superbit {
             initPCA9685()
         }
         // 50hz: 20,000 us
-        let v_us = ((degree - 90) * 20 / 3 + 1500) // 0.6 ~ 2.4
+        let v_us = ((degree -90) * 20 / 3 + 1500) // 0.6 ~ 2.4
         let value = v_us * 4096 / 20000
         setPwm(index + 7, 0, value)
     }
