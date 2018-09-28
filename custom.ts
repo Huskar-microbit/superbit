@@ -194,6 +194,8 @@ namespace Superbit {
   
     //% blockId=superbit_geek_servo block="Geek Servo|%index|degree %degree"
     //% weight=100
+    //% degree.min=-45 degree.max=225
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function GeekServo(index: Servos, degree: number): void {
         if (!initialized) {
             initPCA9685()
