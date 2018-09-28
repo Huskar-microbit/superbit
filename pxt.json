@@ -11,6 +11,7 @@
         "main.blocks",
         "main.ts",
         "README.md",
+        "_locales/zh/superbit-strings.json",
         "custom.ts"
     ],
     "public": true
