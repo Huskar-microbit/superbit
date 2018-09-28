@@ -191,16 +191,9 @@ namespace Superbit {
         setPwm(index + 7, 0, value)
     }
 
-    /**
-     * Geek Servo
-     * @param index Servo Channel; eg: S1
-     * @param degree [-45-225] degree of servo; eg: -45, 90, 225
-    */
+  
     //% blockId=superbit_geek_servo block="Geek Servo|%index|degree %degree"
-    //% weight=99
-    //% blockGap=50
-    //% degree.min=-45 degree.max=225
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    //% weight=100
     export function GeekServo(index: Servos, degree: number): void {
         if (!initialized) {
             initPCA9685()
