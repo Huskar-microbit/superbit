@@ -52,10 +52,7 @@ namespace Superbit {
         MicroSeconds
     }
 
-    /**
-     * Driving ultrasonic sensor 
-     * @param return the distance
-     */
+ 
     //% blockId=ultrasonic_sensor block="ultrasonic unit|%unit"
     //% weight=95
     export function sensor(unit: PingUnit, maxCmDistance = 500): number {
