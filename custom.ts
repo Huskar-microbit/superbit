@@ -54,7 +54,7 @@ namespace Superbit {
 
  
     //% blockId=ultrasonic_sensor block="ultrasonic unit|%unit"
-    //% weight=95
+    //% weight=101
     export function sensor(unit: PingUnit, maxCmDistance = 500): number {
         // send pulse
         pins.setPull(DigitalPin.P8, PinPullMode.PullNone);
