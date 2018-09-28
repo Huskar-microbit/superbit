@@ -1,5 +1,5 @@
 {
-	"Superbit.sensor|block": "超声波传感器|单位 %unit",	
+	"Superbit.UltrasonicSensor|block": "超声波传感器|单位 %unit",	
 	"Superbit.Servo|block": "舵机|%index|角度 %degree",
 	"Superbit.GeekServo|block": "伺服舵机|%index|角度 %degree",
 	"Superbit.StepperDegree|block": "步进电机|%index|角度 %degree",

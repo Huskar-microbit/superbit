@@ -52,10 +52,14 @@ namespace Superbit {
         MicroSeconds
     }
 
- 
+    /**
+     * UltrasonicSensor
+     * @param PingUnit S
+     * @param maxCmDistance [0-500] degree of servo; eg: 500
+    */
     //% blockId=ultrasonic_sensor block="ultrasonic unit|%unit"
     //% weight=101
-    export function sensor(unit: PingUnit, maxCmDistance = 500): number {
+    export function UltrasonicSensor(unit: PingUnit, maxCmDistance = 500): number {
         // send pulse
         pins.setPull(DigitalPin.P8, PinPullMode.PullNone);
         pins.digitalWritePin(DigitalPin.P8, 0);
