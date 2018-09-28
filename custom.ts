@@ -56,8 +56,7 @@ namespace Superbit {
      * Driving ultrasonic sensor 
      * @param return the distance
      */
- /*   //% blockId=ultrasonic_sensor block="ultrasonic unit|%unit"*/
-    //% blockId=1 block="ultrasonic unit|%unit"
+    //% blockId=ultrasonic_sensor block="ultrasonic unit|%unit"
     //% weight=95
     export function sensor(unit: PingUnit, maxCmDistance = 500): number {
         // send pulse
@@ -197,7 +196,7 @@ namespace Superbit {
      * @param index Servo Channel; eg: S1
      * @param degree [-45-225] degree of servo; eg: -45, 90, 225
     */
-    //% blockId=superbit_gservo block="Geek Servo|%index|degree %degree"
+    //% blockId=superbit_geek_servo block="Geek Servo|%index|degree %degree"
     //% weight=99
     //% blockGap=50
     //% degree.min=-45 degree.max=225
