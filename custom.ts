@@ -4,12 +4,14 @@
  */
 
 
+
+
 //% weight=100 color=#1E90FF icon="\uf13d"
 namespace Superbit {
     const PCA9685_ADDRESS = 0x40
     const MODE1 = 0x00
     const MODE2 = 0x01
-    const PWM_CH = 0x06   
+    const PWM_CH = 0x06
     const PRESCALE = 0xFE
 
     const STEP_CHA_L = 2047
@@ -52,8 +54,14 @@ namespace Superbit {
         MicroSeconds
     }
 
+    export enum BMP280_I2C_ADDRESS {
+        //% block="0x76"
+        ADDR_0x76 = 0x76,
+        //% block="0x77"
+        ADDR_0x77 = 0x77
+    }
 
-    //% blockId=ultrasonic_sensor block="sensor unit|%unit"
+    //% blockId=ultrasonic_sensor block="ultrasonic_sensor unit|%unit"
     //% weight=91
     export function sensor(unit: PingUnit, maxCmDistance = 500): number {
         // send pulse
@@ -68,6 +76,7 @@ namespace Superbit {
         let distance = pins.pulseIn(DigitalPin.P12, PulseValue.High, maxCmDistance * 42);
         console.log("Distance: " + distance / 42);
 
+
         basic.pause(50)
 
         switch (unit) {
@@ -75,8 +84,108 @@ namespace Superbit {
             default: return distance;
         }
     }
-
     let initialized = false
+
+
+    let BMP280_I2C_ADDR = BMP280_I2C_ADDRESS.ADDR_0x76
+
+    /**************************************Test BMP280*******************************/
+    function getUInt16LE(reg: number): number {
+        pins.i2cWriteNumber(BMP280_I2C_ADDR, reg, NumberFormat.UInt8BE);
+        return pins.i2cReadNumber(BMP280_I2C_ADDR, NumberFormat.UInt16LE);
+    }
+
+    function getInt16LE(reg: number): number {
+        pins.i2cWriteNumber(BMP280_I2C_ADDR, reg, NumberFormat.UInt8BE);
+        return pins.i2cReadNumber(BMP280_I2C_ADDR, NumberFormat.Int16LE);
+    }
+    let dig_T1 = getUInt16LE(0x88)
+    let dig_T2 = getInt16LE(0x8A)
+    let dig_T3 = getInt16LE(0x8C)
+    let dig_P1 = getUInt16LE(0x8E)
+    let dig_P2 = getInt16LE(0x90)
+    let dig_P3 = getInt16LE(0x92)
+    let dig_P4 = getInt16LE(0x94)
+    let dig_P5 = getInt16LE(0x96)
+    let dig_P6 = getInt16LE(0x98)
+    let dig_P7 = getInt16LE(0x9A)
+    let dig_P8 = getInt16LE(0x9C)
+    let dig_P9 = getInt16LE(0x9E)
+    i2cwrite(BMP280_I2C_ADDR, 0xF4, 0x2F)
+    i2cwrite(BMP280_I2C_ADDR, 0xF5, 0x0C)
+    let Temp = 0
+    let Press = 0
+
+    function getBMP280(): void {
+        let adc_T = (i2cread(BMP280_I2C_ADDR, 0xFA) << 12) + (i2cread(BMP280_I2C_ADDR, 0xFB) << 4) + (i2cread(BMP280_I2C_ADDR, 0xFC) >> 4)
+        let var1 = (((adc_T >> 3) - (dig_T1 << 1)) * dig_T2) >> 11
+        let var2 = (((((adc_T >> 4) - dig_T1) * ((adc_T >> 4) - dig_T1)) >> 12) * dig_T3) >> 14
+        let t = var1 + var2
+        Temp = Math.idiv(((t * 5 + 128) >> 8), 100)
+        var1 = (t >> 1) - 64000
+        var2 = (((var1 >> 2) * (var1 >> 2)) >> 11) * dig_P6
+        var2 = var2 + ((var1 * dig_P5) << 1)
+        var2 = (var2 >> 2) + (dig_P4 << 16)
+        var1 = (((dig_P3 * ((var1 >> 2) * (var1 >> 2)) >> 13) >> 3) + (((dig_P2) * var1) >> 1)) >> 18
+        var1 = ((32768 + var1) * dig_P1) >> 15
+        if (var1 == 0)
+            return; // avoid exception caused by division by zero
+        let adc_P = (i2cread(BMP280_I2C_ADDR, 0xF7) << 12) + (i2cread(BMP280_I2C_ADDR, 0xF8) << 4) + (i2cread(BMP280_I2C_ADDR, 0xF9) >> 4)
+        let _p = ((1048576 - adc_P) - (var2 >> 12)) * 3125
+        _p = Math.idiv(_p, var1) * 2;
+        var1 = (dig_P9 * (((_p >> 3) * (_p >> 3)) >> 13)) >> 12
+        var2 = (((_p >> 2)) * dig_P8) >> 13
+        Press = _p + ((var1 + var2 + dig_P7) >> 4)
+    }
+
+    /**
+     * get pressure
+     */
+    //% blockId="BMP280_GET_PRESSURE" block="BMP280 get pressure"
+    //% weight=80 blockGap=8
+    export function pressure(): number {
+        getBMP280();
+        return Press;
+    }
+
+    /**
+     * get temperature
+     */
+    //% blockId="BMP280_GET_TEMPERATURE" block="BMP280 get temperature"
+    //% weight=80 blockGap=8
+    export function temperature(): number {
+        getBMP280();
+        return Temp;
+    }
+
+    /**
+     * power on
+     */
+    //% blockId="BMP280_POWER_ON" block="BMP280_Power On"
+    //% weight=61 blockGap=8
+    export function PowerOn() {
+        i2cwrite(BMP280_I2C_ADDR, 0xF4, 0x2F)
+    }
+
+    /**
+     * power off
+     */
+    //% blockId="BMP280_POWER_OFF" block="BMP280_Power Off"
+    //% weight=60 blockGap=8
+    export function PowerOff() {
+        i2cwrite(BMP280_I2C_ADDR, 0xF4, 0)
+    }
+
+
+    /**
+     * set I2C address
+     */
+    //% blockId="BMP280_SET_ADDRESS" block="set BMP280 address %addr"
+    //% weight=50 blockGap=8
+    export function Address(addr: BMP280_I2C_ADDRESS) {
+        BMP280_I2C_ADDR = addr
+    }
+
 
     function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
@@ -202,7 +311,7 @@ namespace Superbit {
             initPCA9685()
         }
         // 50hz: 20,000 us
-        let v_us = ((degree -90) * 20 / 3 + 1500) // 0.6 ~ 2.4
+        let v_us = ((degree - 90) * 20 / 3 + 1500) // 0.6 ~ 2.4
         let value = v_us * 4096 / 20000
         setPwm(index + 7, 0, value)
     }

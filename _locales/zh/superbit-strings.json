@@ -8,5 +8,10 @@
 	"Superbit.MotorRunDual|block": "电机|%motor1|速度 %speed1|%motor2|速度 %speed2",
 	"Superbit.MotorRunDelay|block": "电机|%index|速度 %speed|延时 %delay|s",
 	"Superbit.MotorStop|block": "电机 停止|%index|",
-	"Superbit.MotorStopAll|block": "停止所有电机"
+	"Superbit.temperature|block": "BMP280温度",
+	"Superbit.pressure|block": "BMP280大气压强",
+	"Superbit.MotorStopAll|block": "停止所有电机",
+	"Superbit.PowerOn|block": "开启BMP280传感器",
+	"Superbit.PowerOff|block": "关闭BMP280传感器",
+	"Superbit.Address|block": "设置BMP280地址"
 }
