@@ -13,5 +13,5 @@
 	"Superbit.MotorStopAll|block": "停止所有电机",
 	"Superbit.PowerOn|block": "开启BMP280传感器",
 	"Superbit.PowerOff|block": "关闭BMP280传感器",
-	"Superbit.Address|block": "设置BMP280地址 %addr"
+	"Superbit.Address|block": "设置BMP280地址 |%addr"
 }
