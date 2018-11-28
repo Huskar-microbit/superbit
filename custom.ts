@@ -73,9 +73,8 @@ namespace Superbit {
         pins.digitalWritePin(DigitalPin.P8, 0);
 
         // read pulse
-        let distance = pins.pulseIn(DigitalPin.P12, PulseValue.High, maxCmDistance * 42);
+        let distance = Math.round(pins.pulseIn(DigitalPin.P12, PulseValue.High, maxCmDistance * 42));
         console.log("Distance: " + distance / 42);
-
 
         basic.pause(50)
 
