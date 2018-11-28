@@ -74,13 +74,13 @@ namespace Superbit {
 
         // read pulse
         let distance = Math.round(pins.pulseIn(DigitalPin.P12, PulseValue.High, maxCmDistance * 42));
-        console.log("Distance: " + distance / 42);
+        console.log("Distance: " + Math.round(distance / 42));
 
         basic.pause(50)
 
         switch (unit) {
-            case PingUnit.Centimeters: return distance / 42;
-            default: return distance;
+            case PingUnit.Centimeters: return Math.round(distance / 42);
+            default: return Math.round(distance);
         }
     }
     let initialized = false
